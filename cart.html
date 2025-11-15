@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HK Collection - Cart</title>
+    <link rel="stylesheet" href="cart.css">
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            color: #333;
+        }
+
+        /* HEADER */
+        header {
+            background: #111;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        header img {
+            width: 80px;
+            height: auto;
+        }
+
+        /* MAIN CART SECTION */
+        main {
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .cart-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            background-color: #fafafa;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item img {
+            width: 90px;
+            height: 90px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .item-details {
+            flex: 2;
+            margin-left: 20px;
+        }
+
+        .item-details h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .item-details p {
+            font-size: 15px;
+            color: #666;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity button {
+            background-color: #111;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .quantity button:hover {
+            background-color: #333;
+        }
+
+        .item-price {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .cart-summary {
+            text-align: right;
+            margin-top: 25px;
+        }
+
+        .cart-summary p {
+            font-size: 18px;
+            margin: 8px 0;
+        }
+
+        .checkout-btn {
+            background-color: #111;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background-color: #333;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: #111;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .item-details {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .cart-summary {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="login.html">Login</a>
+        </div>
+        <img src="logo.png" alt="HK Collection Logo">
+    </header>
+
+    <main>
+        <h1>Your Shopping Cart</h1>
+
+        <div class="cart-container">
+            <!-- CART ITEM 1 -->
+            <div class="cart-item">
+                <img src="1.jpeg" alt="Product 1">
+                <div class="item-details">
+                    <h3>Stylish T-Shirt</h3>
+                    <p>Size: M | Color: Black</p>
+                </div>
+                <div class="quantity">
+                    <button>-</button>
+                    <span>1</span>
+                    <button>+</button>
+                </div>
+                <div class="item-price">₹799</div>
+            </div>
+
+            <!-- CART ITEM 2 -->
+            <div class="cart-item">
+                <img src="2.jpeg" alt="Product 2">
+                <div class="item-details">
+                    <h3>Casual Shirt</h3>
+                    <p>Size: L | Color: Blue</p>
+                </div>
+                <div class="quantity">
+                    <button>-</button>
+                    <span>2</span>
+                    <button>+</button>
+                </div>
+                <div class="item-price">₹1499</div>
+            </div>
+
+            <!-- CART SUMMARY -->
+            <div class="cart-summary">
+                <p>Subtotal: ₹2298</p>
+                <p>Shipping: ₹99</p>
+                <p><strong>Total: ₹2397</strong></p>
+                <button class="checkout-btn">Proceed to Checkout</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Copyright &copy; | HK Collection | All Rights Reserved</p>
+    </footer>
+    <script>
+        // ==============================
+// HK COLLECTION - CART SCRIPT
+// ==============================
+document.addEventListener("DOMContentLoaded", () => {
+  const cartContainer = document.querySelector(".cart-container");
+  const cartSummary = document.querySelector(".cart-summary");
+
+  // Load cart from localStorage
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // ==============================
+  // FUNCTION TO RENDER CART ITEMS
+  // ==============================
+  function renderCart() {
+    cartContainer.innerHTML = ""; // Clear current content
+
+    if (cart.length === 0) {
+      cartContainer.innerHTML = `
+        <h2 style="text-align:center; padding: 50px 0; color:#555;">🛒 Your cart is empty!</h2>
+      `;
+      return;
+    }
+
+    let subtotal = 0;
+
+    cart.forEach((item, index) => {
+      subtotal += item.price * item.quantity;
+
+      const cartItem = document.createElement("div");
+      cartItem.classList.add("cart-item");
+      cartItem.innerHTML = `
+        <img src="${item.image}" alt="${item.name}">
+        <div class="item-details">
+            <h3>${item.name}</h3>
+            <p>Size: M | Color: Default</p>
+        </div>
+        <div class="quantity">
+            <button class="decrease" data-index="${index}">-</button>
+            <span>${item.quantity}</span>
+            <button class="increase" data-index="${index}">+</button>
+        </div>
+        <div class="item-price">₹${item.price * item.quantity}</div>
+      `;
+      cartContainer.appendChild(cartItem);
+    });
+
+    // Add cart summary
+    const shipping = subtotal > 0 ? 99 : 0;
+    const total = subtotal + shipping;
+
+    const summary = document.createElement("div");
+    summary.classList.add("cart-summary");
+    summary.innerHTML = `
+      <p>Subtotal: ₹${subtotal}</p>
+      <p>Shipping: ₹${shipping}</p>
+      <p><strong>Total: ₹${total}</strong></p>
+      <button class="checkout-btn">Proceed to Checkout</button>
+    `;
+    cartContainer.appendChild(summary);
+  }
+
+  renderCart();
+
+  // ==============================
+  // HANDLE QUANTITY BUTTONS
+  // ==============================
+  cartContainer.addEventListener("click", (e) => {
+    if (e.target.classList.contains("increase")) {
+      const index = e.target.dataset.index;
+      cart[index].quantity += 1;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    if (e.target.classList.contains("decrease")) {
+      const index = e.target.dataset.index;
+      if (cart[index].quantity > 1) {
+        cart[index].quantity -= 1;
+      } else {
+        if (confirm("Remove this item from cart?")) {
+          cart.splice(index, 1);
+        }
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    if (e.target.classList.contains("checkout-btn")) {
+      alert("Proceeding to checkout... (Feature coming soon)");
+    }
+  });
+});
+
+    </script>
+</body>
+
+</html>
